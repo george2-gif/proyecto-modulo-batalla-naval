@@ -1,50 +1,69 @@
 package batallanaval;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Barco {
-	 private String name;
-	    private int size;
-	    private int hits;
-	    private boolean horizontal;
-	    private int startRow;
-	    private int startCol;
 
-	    public Barco(String name, int size) {
-	        this.name = name;
-	        this.size = size;
-	        this.hits = 0;
-	        this.horizontal = true;
-	        this.startRow = -1;
-	        this.startCol = -1;
-	    }
+    private String nombre;
+    private int tamano;
+    private List<Coordenada> posiciones;
+    private boolean[] impactos;
 
-	    public String getName() { return name; }
-	    public int getSize() { return size; }
-	    public int getHits() { return hits; }
-	    public boolean isHorizontal() { return horizontal; }
-	    public int getStartRow() { return startRow; }
-	    public int getStartCol() { return startCol; }
+    public Barco(String nombre, int tamano) {
+        this.nombre = nombre;
+        this.tamano = tamano;
+        this.posiciones = new ArrayList<>();
+        this.impactos = new boolean[tamano];
+    }
 
-	    public void setHorizontal(boolean horizontal) { this.horizontal = horizontal; }
-	    public void setStartRow(int startRow) { this.startRow = startRow; }
-	    public void setStartCol(int startCol) { this.startCol = startCol; }
+    public String getNombre() {
+        return nombre;
+    }
 
-	    
-	    public boolean hit() {
-	        hits++;
-	        return isSunk();
-	    }
+    public int getTamano() {
+        return tamano;
+    }
 
-	    
-	    public boolean isSunk() {
-	        return hits >= size;
-	    }
+    public List<Coordenada> getPosiciones() {
+        return posiciones;
+    }
 
-	    
-	    public String toString() {
-	        return name + " (" + size + " espacios)";
-	    }
-	}
-	    
-	
+    public void setPosiciones(List<Coordenada> posiciones) {
+        this.posiciones = posiciones;
+    }
 
+    public boolean contieneCoordenada(Coordenada coord) {
+        return posiciones.contains(coord);
+    }
 
+    public boolean recibirImpacto(Coordenada coord) {
+        int indice = indiceDePosicion(coord);
+        if (indice == -1) return false;
+        if (impactos[indice]) return false;
+        impactos[indice] = true;
+        return true;
+    }
+
+    private int indiceDePosicion(Coordenada coord) {
+        for (int i = 0; i < posiciones.size(); i++) {
+            if (posiciones.get(i).equals(coord)) return i;
+        }
+        return -1;
+    }
+
+    public boolean estaHundido() {
+        for (boolean impacto : impactos) {
+            if (!impacto) return false;
+        }
+        return true;
+    }
+
+    public int contarImpactos() {
+        int contador = 0;
+        for (boolean impacto : impactos) {
+            if (impacto) contador++;
+        }
+        return contador;
+    }
+}
