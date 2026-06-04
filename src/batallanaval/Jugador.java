@@ -39,7 +39,6 @@ public class Jugador {
 				intentos++;
 			}
 
-			// Mostrar SOLO el barco recién colocado
 			System.out.println("\n  ✔ " + barco.getNombre() + " colocado  (tamaño: " + barco.getTamanio() + ")");
 			tablero.mostrarTableroSoloUnBarco(barco);
 			pausar(600);

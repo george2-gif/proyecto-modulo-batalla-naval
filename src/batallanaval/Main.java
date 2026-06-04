@@ -27,7 +27,7 @@ package batallanaval;
 public class Main {
 
     public static void main(String[] args) {
-        // Punto de entrada: crear y mostrar el menú principal
+  
         Menu menu = new Menu();
         menu.mostrar();
     }

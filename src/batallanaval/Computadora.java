@@ -51,11 +51,11 @@ public class Computadora {
     /** Coloca los 5 barcos de la IA aleatoriamente. */
     private void colocarBarcosAutomatico() {
         Barco[] flota = {
-            new Barco(Barco.PORTAAVIONES, 5),
-            new Barco(Barco.ACORAZADO,    4),
-            new Barco(Barco.CRUCERO,      3),
-            new Barco(Barco.SUBMARINO,    3),
-            new Barco(Barco.DESTRUCTOR,   2)
+            new Barco(Barco.PORTAAVIONES, 1),
+            new Barco(Barco.ACORAZADO,    1),
+            new Barco(Barco.CRUCERO,      1),
+            new Barco(Barco.SUBMARINO,    1),
+            new Barco(Barco.DESTRUCTOR,   1)
         };
 
         for (Barco barco : flota) {
