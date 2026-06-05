@@ -114,9 +114,18 @@ public class Juego {
 		int faltan = TURNOS_PARA_MOVER - (contadorTurnos % TURNOS_PARA_MOVER);
 		System.out.printf("%n  ⚓ Barcos se mueven en: %d turno(s)%n", faltan);
 
-		System.out.println("\n  ═══════════════════════════════════════");
-		System.out.printf("       🎯  TURNO DE: %s%n", atacante.getNombre().toUpperCase());
 		System.out.println("  ═══════════════════════════════════════");
+		System.out.printf ("       🎯  TURNO: %s%n",
+		        atacante.getNombre().toUpperCase());
+		System.out.println("  ═══════════════════════════════════════");
+		System.out.println("  (Escribe 'R' para rendirte)");
+
+		// ── Verificar si el jugador se rinde ──────────────
+		if (jugadorSeRinde(atacante)) {
+		    juegoActivo = false;
+		    mostrarRendicion(atacante);
+		    return;
+		}
 
 		int[] disparo = atacante.realizarDisparo();
 		int fila = disparo[0];
@@ -294,7 +303,47 @@ public class Juego {
 		try {
 			Thread.sleep(ms);
 		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
+			Thread.currentThread().interrupt();}
+		
 		}
+		/**
+		 * Pregunta al jugador si quiere rendirse.
+		 * @return true si confirma la rendición.
+		 */
+		private boolean jugadorSeRinde(Jugador atacante) {
+		    System.out.print("  ► ¿Te rindes? (S = Sí / cualquier tecla = No): ");
+		    String respuesta = scanner.nextLine().trim().toUpperCase();
+
+		    if (!respuesta.equals("S")) return false;
+
+		    // Pedir confirmación para evitar rendiciones accidentales
+		    System.out.print("  ► ¿Seguro? Perderás la partida (S = Confirmar): ");
+		    String confirma = scanner.nextLine().trim().toUpperCase();
+		    return confirma.equals("S");
+		}
+
+		/**
+		 * Muestra la pantalla de rendición.
+		 */
+		private void mostrarRendicion(Jugador rendido) {
+		    limpiarPantalla();
+		    musica.tocarDerrota();
+		    System.out.println("\n  ╔══════════════════════════════════════════╗");
+		    System.out.println("  ║                                          ║");
+		    System.out.println("  ║   🏳  TE HAS RENDIDO, ALMIRANTE          ║");
+		    System.out.printf ("  ║   Jugador: %-30s║%n", rendido.getNombre());
+		    System.out.println("  ║                                          ║");
+		    System.out.println("  ║   A veces la retirada es la mejor        ║");
+		    System.out.println("  ║   estrategia...                          ║");
+		    System.out.println("  ║                                          ║");
+		    System.out.println("  ╚══════════════════════════════════════════╝");
+		    System.out.println("\n  📊 TUS ESTADÍSTICAS FINALES:");
+		    rendido.mostrarEstadisticas();
+		    System.out.println("\n  Presiona ENTER para volver al menú...");
+		    scanner.nextLine();
+		
+	
+	
+	
 	}
 }
