@@ -116,8 +116,8 @@ public class Jugador {
 	}
 
 	private static Barco[] crearFlota() {
-		return new Barco[] { new Barco(Barco.PORTAAVIONES, 5), new Barco(Barco.ACORAZADO, 4),
-				new Barco(Barco.CRUCERO, 3), new Barco(Barco.SUBMARINO, 3), new Barco(Barco.DESTRUCTOR, 2) };
+		return new Barco[] { new Barco(Barco.PORTAAVIONES, 1), new Barco(Barco.ACORAZADO, 1),
+				new Barco(Barco.CRUCERO, 1), new Barco(Barco.SUBMARINO, 1), new Barco(Barco.DESTRUCTOR, 1) };
 	}
 
 	private void pausar(int ms) {

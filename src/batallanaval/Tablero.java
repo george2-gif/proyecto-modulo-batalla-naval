@@ -38,35 +38,26 @@ public class Tablero {
 	}
 
 	public boolean colocarBarco(Barco barco, int fila, int columna, boolean esHorizontal) {
-		int tam = barco.getTamanio();
-		if (esHorizontal && columna + tam > TAMANIO)
-			return false;
-		if (!esHorizontal && fila + tam > TAMANIO)
-			return false;
+		 // Validar que esté dentro del tablero
+	    if (fila < 0 || fila >= TAMANIO || columna < 0 || columna >= TAMANIO) {
+	        return false;
+	    }
 
-		for (int i = 0; i < tam; i++) {
-			int f = esHorizontal ? fila : fila + i;
-			int c = esHorizontal ? columna + i : columna;
-			if (grilla[f][c] != AGUA)
-				return false;
-		}
+	    // Validar que la casilla esté vacía
+	    if (grilla[fila][columna]!= AGUA) {
+	        return false;
+	    }
 
-		int[] filas = new int[tam];
-		int[] columnas = new int[tam];
-		for (int i = 0; i < tam; i++) {
-			int f = esHorizontal ? fila : fila + i;
-			int c = esHorizontal ? columna + i : columna;
-			grilla[f][c] = barco.getSimbolo().charAt(0);
-			filas[i] = f;
-			columnas[i] = c;
-		}
-		barco.colocarEn(filas, columnas);
-		horizontal[totalBarcos] = esHorizontal;
-		barcos[totalBarcos++] = barco;
-		return true;
-	}
+	    // Poner el barco en 1 sola casilla
+	    grilla[fila][columna] = barco.getSimbolo().charAt(0);
 
-	public void moverBarcos() {
+	    barcos[totalBarcos] = barco;
+	    horizontal[totalBarcos] = esHorizontal;
+	    totalBarcos++;    
+	    return true;  
+	    }
+	    
+	     public  void moverBarcos() {
 		for (int idx = 0; idx < totalBarcos; idx++) {
 			Barco b = barcos[idx];
 			if (b == null || b.isHundido())

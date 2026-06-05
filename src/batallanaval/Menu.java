@@ -115,11 +115,11 @@ public class Menu {
 		System.out.println("  ║  TABLERO: 10x10 (A-J columnas, 1-10 fil)║");
 		System.out.println("  ╠══════════════════════════════════════════╣");
 		System.out.println("  ║  FLOTA:                                  ║");
-		System.out.println("  ║  P = Portaaviones  (5 celdas)           ║");
-		System.out.println("  ║  A = Acorazado     (4 celdas)           ║");
-		System.out.println("  ║  C = Crucero       (3 celdas)           ║");
-		System.out.println("  ║  S = Submarino     (3 celdas)           ║");
-		System.out.println("  ║  D = Destructor    (2 celdas)           ║");
+		System.out.println("  ║  P = Portaaviones  (1 celdas)           ║");
+		System.out.println("  ║  A = Acorazado     (1 celdas)           ║");
+		System.out.println("  ║  C = Crucero       (1 celdas)           ║");
+		System.out.println("  ║  S = Submarino     (1 celdas)           ║");
+		System.out.println("  ║  D = Destructor    (1 celdas)           ║");
 		System.out.println("  ╠══════════════════════════════════════════╣");
 		System.out.println("  ║  SÍMBOLOS:                               ║");
 		System.out.println("  ║  ~ = Agua sin disparar                   ║");
