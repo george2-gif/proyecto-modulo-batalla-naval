@@ -1,7 +1,7 @@
 package batallanaval;
 
 import java.util.Random;
-
+import javax.swing.JOptionPane;
 public class Tablero {
 
 	public static final int TAMANIO = 10;
@@ -9,7 +9,7 @@ public class Tablero {
 	public static final char IMPACTO = 'X';
 	public static final char FALLO = 'O';
 	public static final char HUNDIDO = '#';
-
+	private int puntaje = 0;
 	private char[][] grilla;
 	private char[][] grillaEnemigo;
 	private Barco[] barcos;
@@ -17,8 +17,26 @@ public class Tablero {
 	private int totalBarcos;
 	private int barcosHundidos;
 	private Random random;
-
+	private static int cantidadFlotaDinamica = -1;
 	public Tablero() {
+        // Si es la primera vez que se crea un tablero, le preguntamos al usuario
+        if (cantidadFlotaDinamica == -1) {
+            try {
+                java.util.Scanner txt = new java.util.Scanner(System.in);
+                System.out.print("▶ ¿Cuántos barcos deseas habilitar en la flota? (1-5): ");
+                if (txt.hasNextInt()) {
+                    cantidadFlotaDinamica = txt.nextInt();
+                    if (cantidadFlotaDinamica <= 0 || cantidadFlotaDinamica > 5) {
+                        cantidadFlotaDinamica = 5;
+                    }
+                } else {
+                    cantidadFlotaDinamica = 5;
+                }
+            } catch (Exception e) {
+                cantidadFlotaDinamica = 5;
+            }
+        }
+
 		grilla = new char[TAMANIO][TAMANIO];
 		grillaEnemigo = new char[TAMANIO][TAMANIO];
 		barcos = new Barco[5];
@@ -38,25 +56,29 @@ public class Tablero {
 	}
 
 	public boolean colocarBarco(Barco barco, int fila, int columna, boolean esHorizontal) {
-		 // Validar que esté dentro del tablero
-	    if (fila < 0 || fila >= TAMANIO || columna < 0 || columna >= TAMANIO) {
-	        return false;
-	    }
+        // 🔒 CANDADO MAESTRO: Si ya colocamos la cantidad elegida (ej. 4), rechazamos los demás
+        if (this.totalBarcos >= cantidadFlotaDinamica) {
+            return false;
+        }
 
-	    // Validar que la casilla esté vacía
-	    if (grilla[fila][columna]!= AGUA) {
-	        return false;
-	    }
-
-	    // Poner el barco en 1 sola casilla
-	    grilla[fila][columna] = barco.getSimbolo().charAt(0);
-
-	    barcos[totalBarcos] = barco;
-	    horizontal[totalBarcos] = esHorizontal;
-	    totalBarcos++;    
-	    return true;  
-	    }
-	    
+        // Validar que esté dentro del tablero
+        if (fila < 0 || fila >= TAMANIO || columna < 0 || columna >= TAMANIO) {
+            return false;
+        }
+        
+        // Validar que la casilla esté vacía
+        if (grilla[fila][columna] != AGUA) {
+            return false;
+        }
+        
+        // Poner el barco en la grilla
+        grilla[fila][columna] = barco.getSimbolo().charAt(0);
+        
+        barcos[totalBarcos] = barco;
+        horizontal[totalBarcos] = esHorizontal;
+        totalBarcos++; // Suma uno a uno hasta alcanzar el tope que elegiste
+        return true;
+	}  
 	     public  void moverBarcos() {
 		for (int idx = 0; idx < totalBarcos; idx++) {
 			Barco b = barcos[idx];
@@ -154,7 +176,7 @@ public class Tablero {
 					grilla[f][c] = HUNDIDO;
 	}
 
-	public void registrarDisparoPropio(int fila, int columna, int resultado) {
+	public void registrarDisparo(int fila, int columna, int resultado) {
 		if (resultado == 0)
 			grillaEnemigo[fila][columna] = FALLO;
 		else if (resultado == 1)
@@ -245,4 +267,17 @@ public class Tablero {
 	public Barco[] getBarcos() {
 		return barcos;
 	}
-}
+	public int getPuntaje() {
+	    return this.puntaje;
+	}
+	public void registrarDisparoPropio(int fila, int columna, int resultado) {
+	    // Si el resultado fue un impacto (1) o hundido (3), marcamos la grilla enemiga con una 'X'
+	    if (resultado == 1 || resultado == 3) {
+	        grillaEnemigo[fila][columna] = IMPACTO; 
+	    } else {
+	        // Si falló, la marcamos con un fallo ('O')
+	        grillaEnemigo[fila][columna] = FALLO;
+	    }
+	}
+	}
+
